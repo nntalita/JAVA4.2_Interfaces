@@ -3,27 +3,28 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.FlightOffer;
+import ru.netology.exception.NotFoundException;
 import ru.netology.repository.FlightOfferRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FlightOfferManagerTest {
     private FlightOfferManager manager = new FlightOfferManager(new FlightOfferRepository());
-    private FlightOffer first = new FlightOffer(1, 3500, "MOW",
+    private final FlightOffer first = new FlightOffer(1, 3500, "MOW",
             "IST", 180);
-    private FlightOffer second = new FlightOffer(2, 20000, "KGD",
+    private final FlightOffer second = new FlightOffer(2, 20000, "KGD",
             "PKC", 900);
-    private FlightOffer third = new FlightOffer(3, 10000, "CCU",
+    private final FlightOffer third = new FlightOffer(3, 10000, "CCU",
             "GOJ", 1200);
-    private FlightOffer fourth = new FlightOffer(4, 5000, "MOW",
+    private final FlightOffer fourth = new FlightOffer(4, 5000, "MOW",
             "KGD", 120);
-    private FlightOffer fifth = new FlightOffer(5, 1000, "MOW",
+    private final FlightOffer fifth = new FlightOffer(5, 1000, "MOW",
             "GOJ", 60);
-    private FlightOffer sixth = new FlightOffer(6, 500, "MOW",
+    private final FlightOffer sixth = new FlightOffer(6, 500, "MOW",
             "IST", 120);
-    private FlightOffer seventh = new FlightOffer(7, 3500, "MOW",
+    private final FlightOffer seventh = new FlightOffer(7, 3500, "MOW",
             "IST", 200);
-    private FlightOffer eighth = new FlightOffer(8, 5000, "MOW",
+    private final FlightOffer eighth = new FlightOffer(8, 5000, "MOW",
             "IST", 180);
 
     @BeforeEach
@@ -79,5 +80,34 @@ class FlightOfferManagerTest {
         FlightOffer[] actual = manager.searchBy("MOW", "PKC");
         FlightOffer[] expected = {};
         assertArrayEquals(actual, expected);
+    }
+    @Test
+    public void shouldSearchById() {
+        FlightOffer actual = manager.searchById(1);
+        FlightOffer expected = first;
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldSearchByMissingId() {
+        FlightOffer actual = manager.searchById(11);
+        FlightOffer expected = null;
+        assertEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldDeleteById() {
+        manager.deleteById(2);
+        FlightOffer[] actual = manager.viewAll();
+        FlightOffer[] expected = {first,third, fourth, fifth,sixth,seventh,eighth};
+        assertArrayEquals(actual, expected);
+    }
+
+    @Test
+    public void shouldDeleteByMissingId() {
+
+        assertThrows(NotFoundException.class, () -> {
+            manager.deleteById(55);
+        });
     }
 }

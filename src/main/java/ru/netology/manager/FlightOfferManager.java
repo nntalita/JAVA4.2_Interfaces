@@ -34,4 +34,19 @@ public class FlightOfferManager {
         Arrays.sort(result);
         return result;
     }
+
+    public FlightOffer searchById(int id) {
+        FlightOffer offer = repository.findById(id);
+        return offer;
+    }
+
+    public void deleteById(int id) {
+        repository.removeById(id);
+
+    }
+    public FlightOffer[] viewAll() {
+        FlightOffer[] offers = repository.findAll();
+        return offers;
+    }
+
 }
