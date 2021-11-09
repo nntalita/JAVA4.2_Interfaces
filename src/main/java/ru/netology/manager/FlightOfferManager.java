@@ -1,9 +1,11 @@
 package ru.netology.manager;
 
 import ru.netology.domain.FlightOffer;
+import ru.netology.domain.FlightOfferByPriceAscComparator;
 import ru.netology.repository.FlightOfferRepository;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class FlightOfferManager {
 
@@ -12,7 +14,6 @@ public class FlightOfferManager {
     public FlightOfferManager(FlightOfferRepository repository) {
         this.repository = repository;
     }
-
 
     public void add(FlightOffer offer) {
         repository.save(offer);
@@ -48,4 +49,18 @@ public class FlightOfferManager {
         return offers;
     }
 
+    public FlightOffer[] findAll(String from, String to, Comparator<FlightOffer> comparator) {
+        FlightOffer[] result = new FlightOffer[0];
+        FlightOffer[] offers = repository.findAll();
+        for (FlightOffer offer : offers) {
+            if (offer.matchesFrom(from) && offer.matchesTo(to)) {
+                FlightOffer[] tmp = new FlightOffer[result.length + 1];
+                System.arraycopy(result, 0, tmp, 0, result.length);
+                tmp[tmp.length - 1] = offer;
+                result = tmp;
+            }
+        }
+        Arrays.sort(result, comparator);
+        return result;
+    }
 }
