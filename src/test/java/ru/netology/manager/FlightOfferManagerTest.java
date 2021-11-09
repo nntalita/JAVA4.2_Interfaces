@@ -61,6 +61,7 @@ class FlightOfferManagerTest {
         FlightOffer[] expected = {};
         assertArrayEquals(actual, expected);
     }
+
     @Test
     public void shouldSearchByNoTo() {
         FlightOffer[] actual = manager.searchBy("MOW", "");
@@ -81,6 +82,7 @@ class FlightOfferManagerTest {
         FlightOffer[] expected = {};
         assertArrayEquals(actual, expected);
     }
+
     @Test
     public void shouldSearchById() {
         FlightOffer actual = manager.searchById(1);
@@ -99,7 +101,7 @@ class FlightOfferManagerTest {
     public void shouldDeleteById() {
         manager.deleteById(2);
         FlightOffer[] actual = manager.viewAll();
-        FlightOffer[] expected = {first,third, fourth, fifth,sixth,seventh,eighth};
+        FlightOffer[] expected = {first, third, fourth, fifth, sixth, seventh, eighth};
         assertArrayEquals(actual, expected);
     }
 

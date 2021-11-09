@@ -21,8 +21,6 @@ public class FlightOfferManager {
     public FlightOffer[] searchBy(String codFrom, String codTo) {
         FlightOffer[] result = new FlightOffer[0];
         FlightOffer[] offers = repository.findAll();
-        if (codFrom.equals("")) return result;
-        if (codTo.equals("")) return result;
         for (FlightOffer offer : offers) {
             if (offer.matchesFrom(codFrom) && offer.matchesTo(codTo)) {
                 FlightOffer[] tmp = new FlightOffer[result.length + 1];
@@ -44,6 +42,7 @@ public class FlightOfferManager {
         repository.removeById(id);
 
     }
+
     public FlightOffer[] viewAll() {
         FlightOffer[] offers = repository.findAll();
         return offers;
